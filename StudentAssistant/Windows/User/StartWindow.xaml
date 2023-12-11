@@ -1,0 +1,38 @@
+﻿<Window x:Class="StudentAssistant.Windows.User.StartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        Title="StartForm" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="SlateBlue"
+        Closing="StartForm_OnClosing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="1" VerticalAlignment="Bottom" Source="F:\GIT\StudentAssistant\StudentAssistant\StudentAssistant\resources\logo.jpeg"/>
+        <TextBox Name="LoginTextBox" Grid.Row="1" Grid.Column="1" FontSize="13" Width="320" Height="30"
+                 VerticalAlignment="Bottom">
+        </TextBox>
+        
+        <TextBox Name="PasswordTextBox" Grid.Row="2" Grid.Column="1" FontSize="13" Width="320" Height="30"></TextBox>
+        
+        <Button  Grid.Row="3" Grid.Column="1" Content="Log in" FontSize="13" Width="80" Height="30"
+                Click="LogIn_Click" Background="Teal" VerticalAlignment="Top" />
+        
+        <Button Grid.Row="3" Grid.Column="1" Content="Sign up" FontSize="13" Width="80" Height="30"
+                Click="SignUp_Click" Background="Teal" />
+        
+    </Grid>
+</Window>
