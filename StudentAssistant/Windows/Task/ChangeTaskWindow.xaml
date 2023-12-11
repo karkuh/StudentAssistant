@@ -1,0 +1,66 @@
+﻿<Window x:Class="StudentAssistant.Windows.Task.ChangeTaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        Title="ChangeTaskWindow" Height="650" Width="800" MinHeight="650" MinWidth="800"
+        WindowStartupLocation="CenterScreen"
+        Background="SlateBlue"
+        Closing="ChangeTaskWindow_OnClosing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+
+
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Button Grid.Row="0" Grid.Column="4" Content="Back" FontSize="13" Width="100" Height="50" Background="Teal"  Click="Back_OnClick"></Button>
+        <Label Grid.Row="1" Grid.Column="1" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center">Оберіть предмет</Label>
+        <ListBox Grid.Row="2" Grid.Column="1" Name="SubjectsListBox" SelectionChanged="SubjectsListBox_OnSelectionChanged"></ListBox>
+        
+        <Label Grid.Row="1" Grid.Column="3" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center">Оберіть завдання</Label>
+        <ListBox Grid.Row="2" Grid.Column="3" Name="TasksListBox" SelectionChanged="TasksListBox_OnSelectionChanged"></ListBox>
+        
+        
+        
+        <Grid Grid.Row="3" Grid.Column="1" ColumnSpan="3" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Name="TaskTextBox"  Margin="10" ></TextBox>
+            <DatePicker  Grid.Column="1" Name="DeadlineDatePicker" DisplayDateStart="1/1/2023" DisplayDateEnd="12/31/2024" HorizontalAlignment="Center" VerticalAlignment="Center" >
+            </DatePicker>
+            <ListBox  Grid.Column="2" Name="StatusListBox" Margin="10"  SelectionChanged="StatusListBox_OnSelectionChanged">
+                <ListBoxItem>0%</ListBoxItem>
+                <ListBoxItem>25%</ListBoxItem>
+                <ListBoxItem>50%</ListBoxItem>
+                <ListBoxItem>75%</ListBoxItem>
+                <ListBoxItem>100%</ListBoxItem>
+            </ListBox>
+
+        </Grid>
+        
+        <TextBox Grid.Row="4" Grid.Column="1" PreviewTextInput="UIElement_OnPreviewTextInput" Name="MaxScoreTextBox"></TextBox>
+        <TextBox Visibility="Hidden" Grid.Row="4" Grid.Column="3" PreviewTextInput="UIElement_OnPreviewTextInput" Name="EarnedScoreTextBox"></TextBox>
+        
+        
+        <Button Grid.Row="5" Grid.ColumnSpan = "3" Grid.Column="1" Content="Change" FontSize="13" Width="100" Height="50" Background="Teal" Click="ChangeButton_OnClick" ></Button>
+
+    </Grid>
+</Window>
