@@ -21,7 +21,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="1" VerticalAlignment="Bottom" Source="F:\GIT\StudentAssistant\StudentAssistant\StudentAssistant\resources\logo.jpeg"/>
+        <Image Grid.Column="1" VerticalAlignment="Bottom" Source="F:\GIT\StudentAssistant\StudentAssistant\Resources\logo.jpeg"/>
         <TextBox Name="LoginTextBox" Grid.Row="1" Grid.Column="1" FontSize="13" Width="320" Height="30"
                  VerticalAlignment="Bottom">
         </TextBox>
