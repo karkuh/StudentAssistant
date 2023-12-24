@@ -39,7 +39,7 @@ public partial class AddSubjectWindow
     private void InitComboBox()
     {
         var subjectQuery =
-            $"select name from subjects where id_subject in ( " +
+            $"select distinct name from subjects where id_subject in ( " +
             $"select distinct id_subject from subjects_for_one_student where id_subject not in  (" +
             $"select distinct id_subject from subjects_for_one_student where id_student = {_idStudent}))";
         var commandSubject = new MySqlCommand(subjectQuery, Db.Connection.Connect);

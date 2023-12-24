@@ -4,15 +4,240 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="AddSubjectWindow" MinHeight="500" MinWidth="800" MaxHeight="500" MaxWidth="800"
+        Title="StudentAssistant" MinHeight="500" MinWidth="800" Height="500" Width="800"
         WindowStartupLocation="CenterScreen"
-        Background="SlateBlue"
-        Closing="AddSubjectWindow_OnClosing">
+        Background="#e2e9ff"
+        Closing="AddSubjectWindow_OnClosing"
+        Icon="pack://application:,,,/Resources/icon.ico">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#7d5683" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Width" Value="110"></Setter>
+            <Setter Property="Height" Value="45"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#5d3a6f" />
+                                <Setter Property="FontWeight" Value="DemiBold"></Setter>
+
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Height" Value="40"></Setter>
+            <Setter Property="Width" Value="250"></Setter>
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="#adaed2" />
+            <Setter Property="BorderBrush" Value="#9294c3" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#7375b2" />
+                    <Setter Property="BorderThickness" Value="2"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ListBoxStyle" TargetType="ListBox">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="#adaed2" />
+            <Setter Property="BorderBrush" Value="#9294c3" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ScrollViewer">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#7375b2" />
+                    <Setter Property="BorderThickness" Value="2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ComboboxButtonStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border
+                            x:Name="border"
+                            Background="#adaed2"
+                            CornerRadius="0,5,5,0"
+                            BorderThickness="0,2,2,2"
+                            BorderBrush="#9294c3">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#7375b2" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ComboboxTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Padding" Value="5"></Setter>
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border
+                                BorderThickness="2,2,0,2"
+                                CornerRadius="5,0,0,5"
+                                Background="#adaed2"
+                                x:Name="border"
+                                BorderBrush="#9294c3">
+                                <ScrollViewer x:Name="PART_ContentHost" />
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger
+                                Binding="{Binding IsDropDownOpen, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
+                                Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#7375b2" />
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style x:Key="ComboboxStyle" TargetType="{x:Type ComboBox}">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition MaxWidth="18" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Name="PART_EditableTextBox"
+                                     Style="{StaticResource ComboboxTextBoxStyle}"
+                                     Padding="5,0,0,0"
+                                     Height="{TemplateBinding Height}" />
+
+                            <ToggleButton Grid.Column="1" Margin="0"
+                                          Height="40"
+                                          Style="{StaticResource ComboboxButtonStyle}"
+                                          Focusable="False"
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press">
+                                <Path Grid.Column="1"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="M 0 0 L 4 4 L 8 0 Z"
+                                      Fill="#c3c3c4" />
+                            </ToggleButton>
+
+                            <ContentPresenter Grid.Column="0" Name="ContentSite"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"
+                                              Margin="5,0,0,0" />
+
+                            <Popup Grid.Column="0" Name="Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Grid Name="DropDown" SnapsToDevicePixels="True"
+                                      MinWidth="{TemplateBinding ActualWidth}"
+                                      MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder"
+                                            BorderThickness="2"
+                                            CornerRadius="5"
+                                            BorderBrush="#9294c3">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="#9294c3" />
+                                        </Border.Background>
+                                    </Border>
+
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained">
+                                            <StackPanel.Resources>
+                                                <Style TargetType="ComboBoxItem">
+                                                    <Setter Property="Foreground" Value="Black" />
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Foreground" Value="White" />
+
+                                                        </Trigger>
+
+
+                                                    </Style.Triggers>
+
+                                                </Style>
+                                            </StackPanel.Resources>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="120"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition ></RowDefinition>
+            <RowDefinition></RowDefinition>
             <RowDefinition Height="120"></RowDefinition>
 
 
@@ -24,47 +249,60 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Row="0" Grid.Column="2" Content="Back" FontSize="13" Width="100" Height="50" Background="Teal"
+        <Button Grid.Row="0" Grid.Column="2" Content="Назад" Style="{StaticResource ButtonStyle}"
                 Click="Back_OnClick">
         </Button>
-        
-        <StackPanel Grid.Row="1" Grid.Column="0" Margin="10" VerticalAlignment="Center">
-            <Label FontWeight="Bold">Викладач?</Label>
-            <RadioButton Name="OldRadioButton"  Checked="ToggleButton_OnChecked">Обрати з існуючих</RadioButton>
-            <RadioButton Name="NewRadioButton" Checked="ToggleButton_OnChecked">Створити нового</RadioButton>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="20" VerticalAlignment="Center">
+            <Label FontWeight="Bold" FontSize="16" FontStyle="Italic" Margin="0 0 0 10">Викладач?</Label>
+            <RadioButton Name="OldRadioButton" FontSize="16" Padding="5 0 0 10" Checked="ToggleButton_OnChecked">Обрати з існуючих</RadioButton>
+            <RadioButton Name="NewRadioButton" FontSize="16" Padding="5 0 0 0" Checked="ToggleButton_OnChecked">Створити нового</RadioButton>
         </StackPanel>
-        
-        <ListBox Grid.Row="1" Grid.Column="1" Name="OldTeacherListBox" ></ListBox>
-        
+
+        <ListBox Grid.Row="1" Grid.Column="1" Name="OldTeacherListBox" Style="{StaticResource ListBoxStyle}"></ListBox>
+
         <Grid Grid.Row="1" Grid.Column="1" Visibility="Hidden" Name="GridNewTeacher">
             <Grid.RowDefinitions>
-                <RowDefinition ></RowDefinition>
-                <RowDefinition ></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="2.5*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"> <Bold>Ім'я</Bold></Label>
-            <TextBox Name="FirstNameTextBox" Grid.Row="0" Grid.Column="1" FontSize="13" Width="320" Height="30" VerticalAlignment="Center"></TextBox>
-        
-            <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"> <Bold>Прізвище</Bold></Label>
-            <TextBox Name="LastNameTextBox" Grid.Row="1" Grid.Column="1" FontSize="13" Width="320" Height="30" VerticalAlignment="Center"></TextBox>
+            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
+                   FontWeight="SemiBold" FontStyle="Italic">
+                <Bold>Ім'я</Bold>
+            </Label>
+            <TextBox Name="FirstNameTextBox" Grid.Row="0" Grid.Column="1" Style="{StaticResource TextBoxStyle}"></TextBox>
 
-            <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"> <Bold>По-батькові</Bold></Label>
-            <TextBox Name="MiddleNameTextBox" Grid.Row="2" Grid.Column="1" FontSize="13" Width="320" Height="30" VerticalAlignment="Center"></TextBox>
-            
+            <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
+                   FontWeight="SemiBold" FontStyle="Italic">
+                <Bold>Прізвище</Bold>
+            </Label>
+            <TextBox Name="LastNameTextBox" Grid.Row="1" Grid.Column="1" Style="{StaticResource TextBoxStyle}"></TextBox>
+
+            <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
+                   FontWeight="SemiBold" FontStyle="Italic">
+                <Bold>По-батькові</Bold>
+            </Label>
+            <TextBox Name="MiddleNameTextBox" Grid.Row="2" Grid.Column="1" Style="{StaticResource TextBoxStyle}"></TextBox>
+
         </Grid>
-        
-        <Label Grid.Row="2" Grid.Column="0" FontWeight="Bold" VerticalAlignment="Center" Margin="10">Предмет</Label>
 
-        <ComboBox Grid.Row="2" Grid.Column="1"   VerticalAlignment="Center"  IsEditable="True"
-                  Name="SubjectTextBox" Margin="10 0 ">
+        <Label Grid.Row="2" Grid.Column="0" FontSize="16" FontWeight="SemiBold" FontStyle="Italic"
+               VerticalAlignment="Center" Margin="30 0 0 0">
+            Предмет
+        </Label>
+
+        <ComboBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" IsEditable="True"
+                  Name="SubjectTextBox" Style="{StaticResource ComboboxStyle}">
         </ComboBox>
 
-        <Button Grid.Row="3" Grid.Column="1" Content="Add
-        " FontSize="13" Width="100" Height="50" Background="Teal" Click="Add_OnClick"></Button>
+        <Button Grid.Row="3" Grid.Column="1" Content="Додати" Style="{StaticResource ButtonStyle}"
+                Click="Add_OnClick">
+        </Button>
 
     </Grid>
 </Window>

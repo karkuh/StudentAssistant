@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using MySql.Data.MySqlClient;
 using StudentAssistant.DB;
 
@@ -23,20 +24,44 @@ public partial class StartWindow
 
         var passwordQuery = $"select password from students where login = '{LoginTextBox.Text}'";
         var commandPassword = new MySqlCommand(passwordQuery, Db.Connection.Connect);
-        var password = commandPassword.ExecuteScalar().ToString();
-        if (password == null || password != PasswordTextBox.Text)
+        var readerPassword = commandPassword.ExecuteReader();
+        string password;
+        if (readerPassword.HasRows)
+        {
+            readerPassword.Read();
+            password = readerPassword.GetString(0);
+            readerPassword.Close();
+
+        }
+        else
         {
             MessageBox.Show("Невірний логін або пароль. Спробуйте ще раз.", "", MessageBoxButton.OK,
                 MessageBoxImage.Warning);
-            return;
+            LoginTextBox.Text = "";
+            PasswordTextBox.Text = "";
+            readerPassword.Close();
+            return;  
         }
 
-        var idStudentQuery = $"select id_student from students where login = '{LoginTextBox.Text}'";
-        var commandIdStudent = new MySqlCommand(idStudentQuery, Db.Connection.Connect);
-        var idStudent = Convert.ToInt32(commandIdStudent.ExecuteScalar());
-        var mainWindow = new MainWindow(idStudent);
-        mainWindow.Show();
-        Hide();
+
+        if (password == PasswordTextBox.Text)
+        {
+            var idStudentQuery = $"select id_student from students where login = '{LoginTextBox.Text}'";
+            var commandIdStudent = new MySqlCommand(idStudentQuery, Db.Connection.Connect);
+            var idStudent = Convert.ToInt32(commandIdStudent.ExecuteScalar());
+            var mainWindow = new MainWindow(idStudent);
+            mainWindow.Show();
+            Hide();
+        }
+        else
+        {
+            MessageBox.Show("Невірний логін або пароль. Спробуйте ще раз.", "", MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+            LoginTextBox.Text = "";
+            PasswordTextBox.Text = "";
+        }
+
+
     }
 
     private void SignUp_Click(object sender, RoutedEventArgs e)

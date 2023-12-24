@@ -4,33 +4,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="HomeWindow" Height="450" Width="800" MinHeight="450" MinWidth="800"
+        Title="StudentAssistant" Height="500" Width="800" MinHeight="500" MinWidth="800"
         WindowStartupLocation="CenterScreen"
-        Background="SlateBlue"
+        Background="#e2e9ff"
         WindowState="Maximized"
-        Closing="MainWindow_OnClosing">
+        Closing="MainWindow_OnClosing"
+        Icon="pack://application:,,,/Resources/icon.ico">
 
     <Window.Resources>
         <Style x:Key="ShowStatus" TargetType="Button">
-            <Setter Property="Background" Value="#465375"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontFamily" Value="Arial"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Width" Value="120"></Setter>
+            <Setter Property="Background" Value="#7d5683" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Width" Value="180"></Setter>
             <Setter Property="Height" Value="45"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="5" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style> 
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#7d5683" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Width" Value="155"></Setter>
+            <Setter Property="Height" Value="45"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#5d3a6f" />
+                                <Setter Property="FontWeight" Value="DemiBold"></Setter>
+
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
     </Window.Resources>
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -42,80 +73,109 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120"></ColumnDefinition>
+            <ColumnDefinition Width="155"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid>
-            <Button Grid.Row="0" Grid.Column="0" Content="Add subject" FontSize="16" Width="100"
-                    Height="50"
-                    Click="Add_subject" Background="Teal" />
+            <Button Grid.Row="0" Grid.Column="0" Content="Додати предмет"
+                    Style="{StaticResource ButtonStyle}"
+                    Click="Add_subject" />
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0">
-            <Button Content="Delete subject" FontSize="16" Width="100" Height="50"
-                    Background="Teal" Click="Delete_subject" />
+            <Button Content="Видалити предмет" Style="{StaticResource ButtonStyle}" Click="Delete_subject" />
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0">
-            <Button Content="Add task" FontSize="16" Width="100" Height="50"
-                    Background="Teal" Click="AddTask_OnClick" />
+            <Button Content="Додати завдання" Style="{StaticResource ButtonStyle}" Click="AddTask_OnClick" />
         </Grid>
         <Grid Grid.Row="3" Grid.Column="0">
-            <Button Content="Delete task" FontSize="16" Width="100" Height="50"
-                    Background="Teal" Click="DeleteTask_OnClick" />
+            <Button Content="Видалити завдання" Style="{StaticResource ButtonStyle}" Click="DeleteTask_OnClick" />
         </Grid>
         <Grid Grid.Row="4" Grid.Column="0">
-            <Button Content="Change task" FontSize="16" Width="100" Height="50"
-                    Background="Teal" Click="ChangeTask_OnClick" />
+            <Button Content="Змінити завдання" Style="{StaticResource ButtonStyle}" Click="ChangeTask_OnClick" />
         </Grid>
         <Grid Grid.Row="5" Grid.Column="0" Grid.RowSpan="2">
-            <Button Content="Exit" FontSize="16" Width="100" Height="50"
-                    Click="Click_exit" Background="Teal" />
+            <Button Content="Вийти" Style="{StaticResource ButtonStyle}"
+                    Click="Click_exit" />
         </Grid>
 
         <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="6">
-            <DataGrid Margin="20 30" Name="DataGrid" FontSize="20" IsReadOnly="True" Background="Teal"
-                      HeadersVisibility="Column" GridLinesVisibility="All">
+            <DataGrid Margin="20 10" Name="DataGrid" FontSize="20" IsReadOnly="True" Background="#adaed2"
+                      HeadersVisibility="Column" GridLinesVisibility="All" CanUserSortColumns="False">
                 <DataGrid.Resources>
 
+
                     <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="Teal" />
+                        <Setter Property="Background" Value="#9997de" />
+                        <Setter Property="FontStyle" Value="Italic"></Setter>
+                        <Setter Property="FontWeight" Value="SemiBold"></Setter>
                         <Setter Property="Padding" Value="5" />
-                        <Setter Property="BorderBrush" Value="Black" />
+                        <Setter Property="BorderBrush" Value="#282949" />
                         <Setter Property="BorderThickness" Value="1,2,1,3" />
                     </Style>
-                    <Style TargetType="DataGridRow">
-                        <Setter Property="Background" Value="CadetBlue" />
 
-                    </Style>
 
                     <Style TargetType="DataGridCell">
                         <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Background" Value="#adaed2" />
                         <Setter Property="Padding" Value="0" />
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                                <Setter Property="FontStyle" Value="Italic"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
-
                 </DataGrid.Resources>
-
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" />
                 </DataGrid.Columns>
 
             </DataGrid>
-
-
         </Grid>
         <Grid Grid.Row="6" Grid.Column="1">
-            <Button  Grid.Column="0" Grid.Row="0" Style="{StaticResource ShowStatus}" Name="ShowStatusBackground"  Margin="20 20 0 0 ">
-           
+            <Button Grid.Column="0" Grid.Row="0" Style="{StaticResource ShowStatus}" Name="ShowStatusBackground"
+                    Margin="20 20 0 0 ">
+
             </Button>
-            <TextBlock   Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontFamily="Arial"  Margin="20 20 0 0 ">
-                <StackPanel Orientation="Horizontal" >
-                    <CheckBox Name="ShowStatusCheckBox" Click="CheckBox_OnClick" Padding="10 0 0 0 " Foreground="White">Show status</CheckBox>
+            <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       FontSize="16" FontFamily="Arial" Margin="20 20 0 0 ">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Name="ShowStatusCheckBox" Click="CheckBox_OnClick" Padding="10 0 0 0 " Foreground="White">Переглянути статус</CheckBox>
                 </StackPanel>
             </TextBlock>
+
+            <Grid Name="mainGrid" Width="100" HorizontalAlignment="Right" Margin="0 0 25 0">
+
+                <!-- Додавання 5 рядків -->
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Margin="0 0 30 0" Background="#e45c5e"></Label>
+                <TextBlock Text="0%" Grid.Row="0" HorizontalAlignment="Right" FontWeight="SemiBold" />
+
+                <Label Grid.Row="1" Margin="0 0 30 0" Background="#ff9d3d"></Label>
+                <TextBlock Text="25%" Grid.Row="1" HorizontalAlignment="Right" FontWeight="SemiBold" />
+
+                <Label Grid.Row="2" Margin="0 0 30 0" Background="#e2c15f"></Label>
+                <TextBlock Text="50%" Grid.Row="2" HorizontalAlignment="Right" FontWeight="SemiBold" />
+
+                <Label Grid.Row="3" Margin="0 0 30 0" Background="#7fd16f"></Label>
+                <TextBlock Text="75%" Grid.Row="3" HorizontalAlignment="Right" FontWeight="SemiBold" />
+
+                <Label Grid.Row="4" Margin="0 0 30 0" Background="#3a822c"></Label>
+                <TextBlock Text="100%" Grid.Row="4" HorizontalAlignment="Right" FontWeight="SemiBold" />
+
+
+            </Grid>
 
         </Grid>
 
     </Grid>
-
 
 </Window>

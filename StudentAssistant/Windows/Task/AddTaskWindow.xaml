@@ -4,57 +4,223 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="AddTaskWindow" Height="650" Width="800"
+        Title="StudentAssistant" Height="60" Width="900" MinHeight="650" MinWidth="900"
         WindowStartupLocation="CenterScreen"
-        Background="SlateBlue"
-        Closing="AddTaskWindow_OnClosing">
+        Background="#e2e9ff"
+        Closing="AddTaskWindow_OnClosing"
+        Icon="pack://application:,,,/Resources/icon.ico">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#7d5683" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Width" Value="110"></Setter>
+            <Setter Property="Height" Value="45"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#5d3a6f" />
+                                <Setter Property="FontWeight" Value="DemiBold"></Setter>
+
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ListBoxStyle" TargetType="ListBox">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="#adaed2" />
+            <Setter Property="BorderBrush" Value="#9294c3" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ScrollViewer">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#7375b2" />
+                    <Setter Property="BorderThickness" Value="2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Width" Value="250" />
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="#adaed2" />
+            <Setter Property="BorderBrush" Value="#9294c3" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#7375b2" />
+                    <Setter Property="BorderThickness" Value="2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
+            <Setter Property="Height" Value="45" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DatePicker}">
+                        <Grid>
+                            <Border Background="#adaed2" BorderThickness="2" BorderBrush="#9294c3" CornerRadius="5">
+                                <Grid>
+                                    <DatePickerTextBox x:Name="PART_TextBox"
+                                                       Background="#adaed2"
+                                                       BorderThickness="0"
+                                                       Padding="5"
+                                                       FontSize="16"
+                                                       Foreground="White"
+                                                       VerticalContentAlignment="Center"
+                                                       IsReadOnly="True" />
+
+                                    <ToggleButton x:Name="PART_Button"
+                                                  Width="30"
+                                                  Content="▼"
+                                                  HorizontalAlignment="Right"
+                                                  VerticalContentAlignment="Center"
+                                                  Background="Transparent"
+                                                  BorderBrush="Transparent"
+                                                  FontWeight="Bold"
+                                                  Focusable="False"
+                                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  ClickMode="Press">
+                                    </ToggleButton>
+                                </Grid>
+                            </Border>
+
+                            <Popup x:Name="PART_Popup"
+                                   Placement="Bottom"
+                                   StaysOpen="False"
+                                   AllowsTransparency="True"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   PopupAnimation="Slide">
+
+                                <Calendar x:Name="PART_Calendar"
+                                          SelectedDate="{Binding SelectedDate, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          DisplayDate="{Binding DisplayDate, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition ></RowDefinition>
-            <RowDefinition ></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition ></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition ></RowDefinition>
-            <RowDefinition ></RowDefinition>
-            <RowDefinition ></RowDefinition>
-            <RowDefinition ></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
 
 
         </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="20 0 20 0">
+            <Button Content="Назад" Style="{StaticResource ButtonStyle}" HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Click="Back_OnClick">
+            </Button>
+        </Grid>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1" Margin="0 10 0 0 ">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 30 0">
+                    <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
+                           VerticalAlignment="Center" HorizontalAlignment="Center">
+                        Оберіть предмет
+                    </Label>
 
-        <Button Grid.Row="0" Grid.Column="2" Content="Back" FontSize="13" Width="100" Height="50" Background="Teal"
-                Click="Back_OnClick">
-        </Button>
+                    <ListBox Width="400" Height="150" Name="SubjectsListBox" Style="{StaticResource ListBoxStyle}"></ListBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
+                           VerticalAlignment="Center" HorizontalAlignment="Center">
+                        Введіть завдання
+                    </Label>
 
-        <Label Grid.Row="1" Grid.Column="1" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center">Оберіть предмет</Label>
+                    <TextBox Width="400" Height="150" Name="TaskTextBox" TextWrapping="Wrap" AcceptsReturn="True"
+                             Style="{StaticResource TextBoxStyle}">
+                    </TextBox>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
 
-        <ListBox Grid.Row="2" Grid.Column="1" Name="SubjectsListBox"></ListBox>
+        <Grid Grid.Row="2" Margin="0 10 0 0 ">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 20">
+                    <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
+                           VerticalAlignment="Center" HorizontalAlignment="Center">
+                        Оберіть дедлайн
+                    </Label>
 
-        <Label Grid.Row="3" Grid.Column="1" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center">Введіть завдання</Label>
+                    <DatePicker Name="DeadLineDatePicker" DisplayDateStart="1/1/2023"
+                                DisplayDateEnd="12/31/2024" Style="{StaticResource DatePickerStyle}">
+                    </DatePicker>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
+                           VerticalAlignment="Center" HorizontalAlignment="Center">
+                        Введіть максимальну оцінку
+                    </Label>
 
-        <TextBox Grid.Row="4" Grid.Column="1" Name="TaskTextBox" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
+                    <DockPanel VerticalAlignment="Center" Margin="10">
+                        <TextBox
+                            Text="{Binding ElementName=MaxScoreSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"
+                            DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+                        <Slider Maximum="100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"
+                                Name="MaxScoreSlider" />
+                    </DockPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
 
-        <Label Grid.Row="5" Grid.Column="1" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center">Введіть дедлайн</Label>
 
-        <DatePicker Grid.Row="6" Grid.Column="1" Name="DeadLineDatePicker" DisplayDateStart="1/1/2023" DisplayDateEnd="12/31/2024" HorizontalAlignment="Center" VerticalAlignment="Center" >
-        </DatePicker>
-        
-        <Label Grid.Row="7" Grid.Column="1" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center">Введіть максимальну оцінку</Label>
+        <Grid Grid.Row="3">
+            <Button Content="Додати" Style="{StaticResource ButtonStyle}" Click="Add_OnClick"></Button>
 
-        <DockPanel Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Margin="10">
-            <TextBox Text="{Binding ElementName=MaxScoreSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider  Maximum="100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" Name="MaxScoreSlider" />
-        </DockPanel>        
-
-        <Button Grid.Row="9" Grid.Column="1" Content="Add" FontSize="13" Width="100" Height="50" Background="Teal" Click="Add_OnClick"></Button>
+        </Grid>
 
     </Grid>
 </Window>

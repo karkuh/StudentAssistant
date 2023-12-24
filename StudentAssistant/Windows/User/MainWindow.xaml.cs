@@ -248,18 +248,18 @@ public partial class MainWindow
                             var status = _status[$"{j} {i}"];
                             cell.Background = status switch
                             {
-                                1 => Brushes.Red,
-                                2 => Brushes.Orange,
-                                3 => Brushes.Yellow,
-                                4 => Brushes.PaleGreen,
-                                5 => Brushes.Green,
-                                _ => cell.Background
+                                1 => new SolidColorBrush(Color.FromRgb(228, 92, 94)),
+                                2 => new SolidColorBrush(Color.FromRgb(255, 157, 61)),
+                                3 => new SolidColorBrush(Color.FromRgb(226, 193, 95)),
+                                4 => new SolidColorBrush(Color.FromRgb(127, 209, 111)),
+                                5 =>new SolidColorBrush(Color.FromRgb(58, 130, 44)),
+                                _ => new SolidColorBrush(Color.FromRgb(173, 174, 210))
                             };
                         }
                     }
                     else
                     {
-                        cell.Background = Brushes.CadetBlue;
+                        cell.Background = new SolidColorBrush(Color.FromRgb(173, 174, 210));
                     }
 
                     // Оновлюємо відображення

@@ -65,13 +65,33 @@ public partial class ChangeTaskWindow
 
         TaskTextBox.Text = "";
         DeadlineDatePicker.Text = "";
-        TasksListBox.SelectedIndex = 0;
+        Visibility visibility;
+        if (TasksListBox.Items.Count == 0)
+        {
+            visibility = Visibility.Hidden;
+        }
+        else
+        {
+            visibility = Visibility.Visible;
+            TasksListBox.SelectedIndex = 0;
+        }
+
+        TaskTextBox.Visibility = visibility;
+        TaskLabel.Visibility = visibility;
+        DeadlineDatePicker.Visibility = visibility;
+        DeadlineLabel.Visibility = visibility;
+        StatusListBox.Visibility = visibility;
+        StatusLabel.Visibility = visibility;
+        MaxScoreTextBox.Visibility = visibility;
+        MaxScoreLabel.Visibility = visibility;
+        EarnedScoreTextBox.Visibility = visibility;
+        EarnedScoreLabel.Visibility = visibility;
     }
 
     private void TasksListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (TasksListBox.Items.IsEmpty) return;
-        
+
         TaskTextBox.Text = "";
         DeadlineDatePicker.Text = "";
 
@@ -82,7 +102,7 @@ public partial class ChangeTaskWindow
         var readerInfoTask = commandInfoTask.ExecuteReader();
         if (!readerInfoTask.HasRows) return;
         readerInfoTask.Read();
-        
+
         TaskTextBox.Text = readerInfoTask.GetString(0);
         DeadlineDatePicker.Text = readerInfoTask.GetString(1);
         var index = readerInfoTask.GetInt32(2) - 1;
@@ -95,6 +115,7 @@ public partial class ChangeTaskWindow
     private void StatusListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         EarnedScoreTextBox.Visibility = StatusListBox.SelectedIndex == 4 ? Visibility.Visible : Visibility.Hidden;
+        EarnedScoreLabel.Visibility = StatusListBox.SelectedIndex == 4 ? Visibility.Visible : Visibility.Hidden;
         if (StatusListBox.SelectedIndex != 4) return;
         var earnedScoreQuery =
             $"select earned_score from tasks where " +
@@ -103,12 +124,12 @@ public partial class ChangeTaskWindow
         var earnedScore = Convert.ToString(commandEarnedScore.ExecuteScalar())!;
         EarnedScoreTextBox.Text = earnedScore.Replace(',', '.');
     }
-    
+
     private void UIElement_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
     {
         e.Handled = new Regex("[^0-9.]+").IsMatch(e.Text);
     }
-    
+
     private void Back_OnClick(object sender, RoutedEventArgs e)
     {
         var mainWindow = new MainWindow(_idStudent);
@@ -124,7 +145,7 @@ public partial class ChangeTaskWindow
             if (string.IsNullOrEmpty(TaskTextBox.Text) || string.IsNullOrEmpty(MaxScoreTextBox.Text) ||
                 string.IsNullOrEmpty(EarnedScoreTextBox.Text))
             {
-                MessageBox.Show("Заповніть усі необхідні поля","",MessageBoxButton.OK,MessageBoxImage.Warning);
+                MessageBox.Show("Заповніть усі необхідні поля", "", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -141,7 +162,7 @@ public partial class ChangeTaskWindow
         {
             if (string.IsNullOrEmpty(TaskTextBox.Text) || string.IsNullOrEmpty(MaxScoreTextBox.Text))
             {
-                MessageBox.Show("Заповніть усі необхідні поля","",MessageBoxButton.OK,MessageBoxImage.Warning);
+                MessageBox.Show("Заповніть усі необхідні поля", "", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -158,7 +179,7 @@ public partial class ChangeTaskWindow
         if (!CheckNumber(MaxScoreTextBox.Text.Replace('.', ',')) || StatusListBox.SelectedIndex == 4 &&
             !CheckNumber(EarnedScoreTextBox.Text.Replace('.', ',')))
         {
-            MessageBox.Show("Введіть коректні значення","",MessageBoxButton.OK,MessageBoxImage.Warning);
+            MessageBox.Show("Введіть коректні значення", "", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
@@ -166,7 +187,7 @@ public partial class ChangeTaskWindow
         var commandUpdateQuery = new MySqlCommand(updateQuery, Db.Connection.Connect);
         commandUpdateQuery.ExecuteScalar();
 
-        MessageBox.Show("Завдання оновлено","",MessageBoxButton.OK,MessageBoxImage.Information);
+        MessageBox.Show("Завдання оновлено", "", MessageBoxButton.OK, MessageBoxImage.Information);
         var mainWindow = new MainWindow(_idStudent);
         mainWindow.Show();
         Hide();
@@ -181,7 +202,7 @@ public partial class ChangeTaskWindow
 
         return false;
     }
-    
+
     private void ChangeTaskWindow_OnClosing(object? sender, CancelEventArgs e)
     {
         Close();

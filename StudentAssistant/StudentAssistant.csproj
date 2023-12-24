@@ -11,4 +11,14 @@
       <PackageReference Include="MySql.Data" Version="8.2.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="favicon.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\favicon.ico" />
+      <Resource Include="Resources\icon.ico" />
+      <None Remove="Resources\icon.ico" />
+    </ItemGroup>
+
 </Project>

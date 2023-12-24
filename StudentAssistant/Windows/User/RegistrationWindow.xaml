@@ -4,10 +4,70 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="Registration" Height="450" Width="600"
-        WindowStartupLocation = "CenterScreen"
-        Background="SlateBlue"
-        Closing="Registration_OnClosing">
+        Title="StudentAssistant" Height="450" Width="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#e2e9ff"
+        Closing="Registration_OnClosing"
+        Icon="pack://application:,,,/Resources/icon.ico">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#7d5683" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Width" Value="140"></Setter>
+            <Setter Property="Height" Value="45"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#5d3a6f" />
+                                <Setter Property="FontWeight" Value="DemiBold"></Setter>
+
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Height" Value="40"></Setter>
+            <Setter Property="Width" Value="250"></Setter>
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="#adaed2" />
+            <Setter Property="BorderBrush" Value="#9294c3" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#7375b2" />
+                    <Setter Property="BorderThickness" Value="2"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -17,29 +77,35 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition ></ColumnDefinition>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
-            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        
-        <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"> <Bold>Логін</Bold></Label>
-        <TextBox Name="LoginTextBox" Grid.Row="1" Grid.Column="1" FontSize="13" Width="320" Height="30" VerticalAlignment="Center" ></TextBox>
-        
-        <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"> <Bold>Пароль</Bold></Label>
-        <TextBox Name="PasswordTextBox" Grid.Row="2" Grid.Column="1" FontSize="13" Width="320" Height="30" VerticalAlignment="Center"></TextBox>
 
-        <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"> <Bold>Група</Bold></Label>
-        <TextBox Name="GroupTextBox" Grid.Row="3" Grid.Column="1" FontSize="13" Width="320" Height="30" VerticalAlignment="Center"></TextBox>
+        <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
+               FontStyle="Italic">
+            <Bold>Логін</Bold>
+        </Label>
+        <TextBox Name="LoginTextBox" Grid.Row="1" Grid.Column="1" Style="{StaticResource TextBoxStyle}"></TextBox>
 
-        
+        <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
+               FontStyle="Italic">
+            <Bold>Пароль</Bold>
+        </Label>
+        <TextBox Name="PasswordTextBox" Grid.Row="2" Grid.Column="1" Style="{StaticResource TextBoxStyle}"></TextBox>
 
-        
-        
-        <Button Grid.Row="0" Grid.Column="2" Content="Назад"  FontSize="14" Width="110" Height="45"
-                Click="Back_Click" Background="Teal" />
-        <Button Grid.Row="4" Grid.Column="1" Content="Зареєструватися"  FontSize="14" Width="130" Height="45"
-                Click="Registration_Click" Background="Teal" />
+        <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
+               FontStyle="Italic">
+            <Bold>Група</Bold>
+        </Label>
+        <TextBox Name="GroupTextBox" Grid.Row="3" Grid.Column="1" Style="{StaticResource TextBoxStyle}"></TextBox>
+
+
+        <Button Grid.Row="0" Grid.Column="2" Content="Назад" HorizontalAlignment="Right"
+                Click="Back_Click" Style="{StaticResource ButtonStyle}" />
+        <Button Grid.Row="4" Grid.Column="1" Content="Зареєструватися" Style="{StaticResource ButtonStyle}"
+                Click="Registration_Click" />
 
 
     </Grid>
