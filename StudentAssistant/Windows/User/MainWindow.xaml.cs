@@ -59,7 +59,7 @@ public partial class MainWindow
 
         readerColumnHeader.Close();
 
-        //найбільша кількість рядків 
+        //найбільша кількість завдань серед предметів студента 
         var maxRowsCountQuery =
             $"select count(*) from tasks " +
             $"where id_student = {_idStudent} " +
@@ -82,6 +82,7 @@ public partial class MainWindow
 
             for (var i = 1; i < dataTable.Columns.Count; i++)
             {
+                // Інформація про завдання 
                 var infoTaskQuery =
                     $"select task,deadline,id_status,max_score,earned_score from tasks where " +
                     $"id_subject = {idSubjects[i - 1]} and " +
@@ -225,6 +226,9 @@ public partial class MainWindow
     
     private void Click_exit(object sender, RoutedEventArgs e)
     {
+        var savedStudentQuery = $"truncate table saved_student;";
+        var commandSavedStudent = new MySqlCommand(savedStudentQuery, Db.Connection.Connect);
+        commandSavedStudent.ExecuteNonQuery();
         var startWindow = new StartWindow();
         startWindow.Show();
         Hide();

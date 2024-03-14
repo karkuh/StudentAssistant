@@ -53,6 +53,7 @@ public partial class AddTaskWindow
 
         var idSubject = SubjectsListBox.SelectedItem.ToString()!.Split(". ")[0];
 
+        // Додавання завдання студента, в залежності від того чи обрано дедлайн
         var insertTaskQuery = string.IsNullOrEmpty(DeadLineDatePicker.Text)
             ? $"insert into tasks (id_student, id_subject, task,max_score)values ({_idStudent},{idSubject},'{TaskTextBox.Text}','{MaxScoreSlider.Value}'); "
             : $"insert into tasks (id_student, id_subject, task,deadline, max_score)values ({_idStudent},{idSubject},'{TaskTextBox.Text}','{StartWindow.TransformDateFormat(DeadLineDatePicker.Text)}','{MaxScoreSlider.Value}'); ";

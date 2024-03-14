@@ -4,68 +4,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="StudentAssistant" Height="450" Width="600" MinHeight="450" MinWidth="400"
+        Title="StudentAssistant" Height="500" Width="600" 
+        ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         Background="#e2e9ff"
         Closing="StartForm_OnClosing"
         Icon="pack://application:,,,/Resources/icon.ico">
     <Window.Resources>
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#7d5683" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontFamily" Value="Arial" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="Padding" Value="10" />
-            <Setter Property="Width" Value="130"></Setter>
-            <Setter Property="Height" Value="45"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}"
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#5d3a6f" />
-                                <Setter Property="FontWeight" Value="DemiBold"></Setter>
-
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="TextBoxStyle" TargetType="TextBox">
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="Height" Value="40"></Setter>
-            <Setter Property="Width" Value="250"></Setter>
-            <Setter Property="FontFamily" Value="Arial" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Background" Value="#adaed2" />
-            <Setter Property="BorderBrush" Value="#9294c3" />
-            <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="Padding" Value="10" />
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border CornerRadius="5" Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <ScrollViewer x:Name="PART_ContentHost" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="BorderBrush" Value="#7375b2" />
-                    <Setter Property="BorderThickness" Value="2"></Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
 
         <Style x:Key="TextBoxNameStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
             <Setter Property="Template">
@@ -125,6 +70,7 @@
             <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
 
@@ -136,10 +82,26 @@
 
         <TextBox Name="PasswordTextBox" Grid.Row="2" Style="{StaticResource TextBoxPasswordStyle}"></TextBox>
 
-        <Button Grid.Row="3" Content="Увійти"
-                Click="LogIn_Click" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}" />
-        <Button Grid.Row="3" Content="Зареєструватися" Margin="0 20 0 0" Style="{StaticResource ButtonStyle}"
-                Click="SignUp_Click" />
+        <Button  Grid.Row="3" Style="{StaticResource ShowStatus}" Name="ShowStatusBackground"
+                 >
+
+        </Button>
+        <TextBlock Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontSize="16" FontFamily="Arial" >
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Name="SavedStudentCheckBox" Padding="10 0 0 0 " Foreground="White">Запам'ятати?</CheckBox>
+            </StackPanel>
+        </TextBlock>
+
+        
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" >
+            <Button  Content="Зареєструватися" Margin="0 0 20 0" Style="{StaticResource ButtonStyle}"
+                     Click="SignUp_Click" />
+            <Button  Content="Увійти"
+                    Click="LogIn_Click" Margin="20 0 0 0" Style="{StaticResource ButtonStyle}" />
+
+        </StackPanel>
+
 
     </Grid>
 </Window>

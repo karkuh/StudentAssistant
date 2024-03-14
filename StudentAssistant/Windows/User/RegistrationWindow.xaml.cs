@@ -24,6 +24,7 @@ public partial class RegistrationWindow
         if (!Validation(LoginTextBox.Text, PasswordTextBox.Text, GroupTextBox.Text)) return;
         if (Check_Login(LoginTextBox.Text))
         {
+            // Додавання нового облікового запису студента
             var insertQuery =
                 $"INSERT INTO students (login, password, group_name) VALUES " +
                 $"('{LoginTextBox.Text.Trim()}', '{PasswordTextBox.Text}', '{GroupTextBox.Text}');";
@@ -69,6 +70,7 @@ public partial class RegistrationWindow
 
     private static bool Check_Login(string login)
     {
+        // Перевірка унікальності логіну
         var countQuery = $"select count(*) from students where login = '{login.Trim()}';";
 
         var commandCount = new MySqlCommand(countQuery, Db.Connection.Connect);

@@ -25,6 +25,7 @@ public partial class ChangeTaskWindow
 
     private void InitListBox()
     {
+        // Виклик процедури, що повертає усі предмети студента
         var subjectsForStudentQuery =
             $"call SubjectsOfOneStudent ({_idStudent});";
         var commandSubjectsForStudent = new MySqlCommand(subjectsForStudentQuery, Db.Connection.Connect);
@@ -46,7 +47,8 @@ public partial class ChangeTaskWindow
     private void SubjectsListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
     {
         TasksListBox.Items.Clear();
-
+        
+        // Повернення завдань студента на певному предметі
         var tasksQuery =
             $"select id_task,task from tasks where " +
             $"id_subject = {SubjectsListBox.SelectedItem.ToString()!.Split(". ")[0]} and " +
@@ -84,8 +86,7 @@ public partial class ChangeTaskWindow
         StatusLabel.Visibility = visibility;
         MaxScoreTextBox.Visibility = visibility;
         MaxScoreLabel.Visibility = visibility;
-        EarnedScoreTextBox.Visibility = visibility;
-        EarnedScoreLabel.Visibility = visibility;
+
     }
 
     private void TasksListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -95,6 +96,7 @@ public partial class ChangeTaskWindow
         TaskTextBox.Text = "";
         DeadlineDatePicker.Text = "";
 
+        // Поверенння інформації про предмет
         var infoTaskQuery =
             $"select task,deadline,id_status,max_score,earned_score from tasks  where " +
             $"id_task = {TasksListBox.SelectedItem.ToString()!.Split(". ")[0]} ;";
@@ -149,6 +151,7 @@ public partial class ChangeTaskWindow
                 return;
             }
 
+            // Зміна даних завдання
             updateQuery =
                 $"update tasks " +
                 $"SET task = '{TaskTextBox.Text}'," +

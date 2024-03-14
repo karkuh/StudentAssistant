@@ -68,6 +68,7 @@ public partial class DeleteTaskWindow
     
     private void DeleteTask_OnClick(object sender, RoutedEventArgs e)
     {
+        // Видалення завдання
         var deleteQuery =
             $"delete from tasks where id_task = {TasksListBox.SelectedItem.ToString()!.Split(". ")[0]};";
         var commandDelete = new MySqlCommand(deleteQuery, Db.Connection.Connect);

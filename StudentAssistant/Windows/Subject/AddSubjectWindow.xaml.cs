@@ -38,6 +38,7 @@ public partial class AddSubjectWindow
 
     private void InitComboBox()
     {
+        // Поверненя назв предметів, які є у базі даних та не використовуються пвеним студентом
         var subjectQuery =
             $"select distinct name from subjects where id_subject in ( " +
             $"select distinct id_subject from subjects_for_one_student where id_subject not in  (" +
@@ -110,6 +111,7 @@ public partial class AddSubjectWindow
         }
         else
         {
+            // Додавання нового вчителя
             var insertTeacherQuery =
                 $"INSERT INTO teachers (last_name, first_name, middle_name) " +
                 $"SELECT '{LastNameTextBox.Text}', '{FirstNameTextBox.Text}', '{MiddleNameTextBox.Text}' " +
@@ -126,13 +128,14 @@ public partial class AddSubjectWindow
             idTeacher = Convert.ToInt32(commandInsertTeacher.ExecuteScalar());
         }
 
-
+        // Додавання предмету
         var insertSubjectQuery =
             $"insert into subjects(name, id_teacher)SELECT '{SubjectTextBox.Text}',{idTeacher} WHERE NOT EXISTS ( SELECT 1 FROM subjects WHERE name = '{SubjectTextBox.Text}' and id_teacher = {idTeacher});" +
             $"select id_subject from subjects where name = '{SubjectTextBox.Text}' and id_teacher = {idTeacher}; ";
         var commandInsertSubject = new MySqlCommand(insertSubjectQuery, Db.Connection.Connect);
         var idSubject = Convert.ToInt32(commandInsertSubject.ExecuteScalar());
 
+        // Додавання залежності студента з предметом
         var insertSubjectForStudentQuery =
             $"insert into subjects_for_one_student(id_student, id_subject) values ({_idStudent},{idSubject});";
         var commandInsertSubjectForStudentQuery = new MySqlCommand(insertSubjectForStudentQuery, Db.Connection.Connect);

@@ -12,6 +12,21 @@ public partial class StartWindow
     public StartWindow()
     {
         InitializeComponent();
+
+        var savedStudentQuery = $"select count(*) from saved_student";
+        var commandSavedStudent = new MySqlCommand(savedStudentQuery, Db.Connection.Connect);
+        var savedStudent = Convert.ToInt32(commandSavedStudent.ExecuteScalar());
+
+        if (savedStudent == 1)
+        {
+            var idStudentQuery = $"select id_student from saved_student";
+            var commandIdStudent = new MySqlCommand(idStudentQuery, Db.Connection.Connect);
+            var idStudent = Convert.ToInt32(commandIdStudent.ExecuteScalar());
+            var mainWindow = new MainWindow(idStudent);
+            mainWindow.Show();
+            Hide();
+        }
+
     }
 
     private void LogIn_Click(object sender, RoutedEventArgs e)
@@ -22,6 +37,7 @@ public partial class StartWindow
             return;
         }
 
+        // Перевірка коректно введеного паролю
         var passwordQuery = $"select password from students where login = '{LoginTextBox.Text}'";
         var commandPassword = new MySqlCommand(passwordQuery, Db.Connection.Connect);
         var readerPassword = commandPassword.ExecuteReader();
@@ -46,9 +62,21 @@ public partial class StartWindow
 
         if (password == PasswordTextBox.Text)
         {
-            var idStudentQuery = $"select id_student from students where login = '{LoginTextBox.Text}'";
-            var commandIdStudent = new MySqlCommand(idStudentQuery, Db.Connection.Connect);
-            var idStudent = Convert.ToInt32(commandIdStudent.ExecuteScalar());
+
+            var studentQuery = $"select id_student, group_name from students where login = '{LoginTextBox.Text}'";
+            var commandStudent = new MySqlCommand(studentQuery, Db.Connection.Connect);
+            var readerStudent = commandStudent.ExecuteReader();
+            readerStudent.Read();
+            var idStudent = readerStudent.GetInt32(0);
+            var groupStudent = readerStudent.GetString(1);
+            readerStudent.Close();
+            var savedStudentQuery = $"truncate table saved_student;";
+            if (SavedStudentCheckBox.IsChecked == true)
+            {
+                 savedStudentQuery += $" INSERT INTO `studentassistant`.`saved_student` (`id_student`, `login`, `password`, `group_name`) VALUES ('{idStudent}', '{LoginTextBox.Text}', '{PasswordTextBox.Text}', '{groupStudent}');";
+            }
+            var commandSavedStudent = new MySqlCommand(savedStudentQuery, Db.Connection.Connect);
+            commandSavedStudent.ExecuteNonQuery();
             var mainWindow = new MainWindow(idStudent);
             mainWindow.Show();
             Hide();
