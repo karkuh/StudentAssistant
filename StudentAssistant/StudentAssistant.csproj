@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="MySql.Data" Version="8.2.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
@@ -19,6 +20,11 @@
       <None Remove="Resources\favicon.ico" />
       <Resource Include="Resources\icon.ico" />
       <None Remove="Resources\icon.ico" />
+      <None Remove="Resources\2week.jpg" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\1week.jpg" />
     </ItemGroup>
 
 </Project>

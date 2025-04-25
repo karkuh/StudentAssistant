@@ -1,89 +1,105 @@
 ﻿<Window x:Class="StudentAssistant.Windows.Task.AddTaskWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        mc:Ignorable="d"
-        Title="StudentAssistant"  Height="650" Width="900"
+        Title="StudentAssistant" Height="650" Width="900"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Background="#e2e9ff"
+        Background="{StaticResource BackgroundColor}"
         Closing="AddTaskWindow_OnClosing"
         Icon="pack://application:,,,/Resources/icon.ico">
 
-    <Grid>
+    <Grid Margin="30">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="0.5*"></RowDefinition>
-
-
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="20 0 20 0">
-            <Button Content="Назад" Style="{StaticResource ButtonStyle}" HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Click="Back_OnClick">
-            </Button>
-        </Grid>
 
-        <Grid Grid.Row="1" Margin="0 10 0 0 ">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 30 0">
-                    <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
-                           VerticalAlignment="Center" HorizontalAlignment="Center">
-                        Оберіть предмет
-                    </Label>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-                    <ListBox Width="400" Height="250" Name="SubjectsListBox" Style="{StaticResource ListBoxStyle}"></ListBox>
-                </StackPanel>
-                <StackPanel Orientation="Vertical">
-                    <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
-                           VerticalAlignment="Center" HorizontalAlignment="Center">
-                        Введіть завдання
-                    </Label>
+        <!-- Назва вікна -->
+        <TextBlock Text="Додавання завдання" 
+                   FontSize="24" FontWeight="Bold" 
+                   Foreground="#4B4B77"
+                   VerticalAlignment="Center"
+                   Grid.Row="0" Grid.Column="0"
+                   Margin="10"/>
 
-                    <TextBox Width="400" Height="250" Name="TaskTextBox" TextWrapping="Wrap" AcceptsReturn="True"
-                             Style="{StaticResource TextBoxStyle}">
-                    </TextBox>
-                </StackPanel>
+        <!-- Кнопка Назад справа вгорі -->
+        <Button Content="Назад" Style="{StaticResource ButtonStyle}" 
+                Click="Back_OnClick"
+                Grid.Row="0" Grid.Column="1"
+                Margin="0,10,10,10"/>
+
+        <!-- Роздільник -->
+        <Separator Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10"/>
+
+        <!-- Основна частина -->
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition   />
+                <ColumnDefinition  />
+            </Grid.ColumnDefinitions>
+
+            <!-- Ліва частина: Вибір предмету -->
+            <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Top">
+                <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
+                       VerticalAlignment="Center" HorizontalAlignment="Center">
+                    Оберіть предмет
+                </Label>
+                
+                <ListBox Name="SubjectsListBox" Style="{StaticResource ListBoxStyle}" Height="260" Width="370"/>
+            </StackPanel>
+
+            <!-- Права частина: Введення завдання -->
+            <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Top">
+                <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
+                       VerticalAlignment="Center" HorizontalAlignment="Center">
+                    Введіть завдання
+                </Label>
+                <TextBox Name="TaskTextBox" TextWrapping="Wrap" AcceptsReturn="True" Style="{StaticResource TextBoxStyle}" Height="260" Width="370"/>
+            </StackPanel>
+
+            <!-- Ліва частина: Вибір дедлайну -->
+            <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Top">
+               
+                <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
+                       VerticalAlignment="Center" HorizontalAlignment="Center">
+                    Оберіть дедлайн
+                </Label>
+                <DatePicker Name="DeadLineDatePicker" Style="{StaticResource DatePickerStyle}"/>
+            </StackPanel>
+
+            <!-- Права частина: Введення максимальної оцінки -->
+            <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
+                
+                <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
+                       VerticalAlignment="Center" HorizontalAlignment="Center">
+                    Введіть максимальну оцінку
+                </Label>
+                <DockPanel VerticalAlignment="Center" Margin="10">
+                    <TextBox
+                        Text="{Binding ElementName=MaxScoreSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"
+                        DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+                    <Slider Maximum="100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" 
+                            Name="MaxScoreSlider" Width="300" />
+                </DockPanel>
             </StackPanel>
         </Grid>
-
-        <Grid Grid.Row="2" Margin="0 10 0 0 ">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 370 0">
-                    <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
-                           VerticalAlignment="Center" HorizontalAlignment="Center">
-                        Оберіть дедлайн
-                    </Label>
-
-                    <DatePicker Name="DeadLineDatePicker" DisplayDateStart="1/1/2023"
-                                DisplayDateEnd="12/31/2024" Style="{StaticResource DatePickerStyle}">
-                    </DatePicker>
-                </StackPanel>
-                <StackPanel Orientation="Vertical">
-                    <Label Margin="0 0 0 5" FontSize="18" FontWeight="SemiBold" FontStyle="Italic"
-                           VerticalAlignment="Center" HorizontalAlignment="Center">
-                        Введіть максимальну оцінку
-                    </Label>
-
-                    <DockPanel VerticalAlignment="Center" Margin="10">
-                        <TextBox
-                            Text="{Binding ElementName=MaxScoreSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"
-                            DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-                        <Slider Maximum="100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"
-                                Name="MaxScoreSlider" />
-                    </DockPanel>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
-
-
-        <Grid Grid.Row="3">
-            <Button Content="Додати" Style="{StaticResource ButtonStyle}" Click="Add_OnClick"></Button>
-
-        </Grid>
-
+        <!-- Кнопка Додати -->
+        <Button Content="Додати" Style="{StaticResource ButtonStyle}" 
+                Click="Add_OnClick"
+                Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0 0 0 20"/>
     </Grid>
 </Window>

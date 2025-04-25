@@ -1,7 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Кольори -->
+    <SolidColorBrush x:Key="BackgroundColor" Color="#C7D3FC" />
+    
     <Style x:Key="ButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="#7d5683" />
+        <Setter Property="Background" Value="#634490" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontFamily" Value="Arial" />
         <Setter Property="FontSize" Value="14" />
@@ -26,23 +30,25 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="ListBoxStyle" TargetType="ListBox">
-        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
         <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
-        <Setter Property="FontFamily" Value="Arial"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Background" Value="#adaed2"/>
-        <Setter Property="BorderBrush" Value="#9294c3"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Padding" Value="10"/>
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="#adaed2" />
+        <Setter Property="BorderBrush" Value="#9294c3" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Padding" Value="10" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
-                    <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <ScrollViewer x:Name="PART_ScrollViewer">
-                            <ItemsPresenter/>
+                            <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
@@ -50,12 +56,12 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsFocused" Value="True">
-                <Setter Property="BorderBrush" Value="#7375b2"/>
-                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderBrush" Value="#7375b2" />
+                <Setter Property="BorderThickness" Value="2" />
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
     <Style x:Key="TextBoxStyle" TargetType="TextBox">
         <Setter Property="FontSize" Value="16" />
         <Setter Property="Height" Value="40" />
@@ -85,67 +91,67 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
-    
-            <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
-            <Setter Property="Height" Value="45" />
-            <Setter Property="Width" Value="200" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type DatePicker}">
-                        <Grid>
-                            <Border Background="#adaed2" BorderThickness="2" BorderBrush="#9294c3" CornerRadius="5">
-                                <Grid>
-                                    <DatePickerTextBox x:Name="PART_TextBox"
-                                                       Background="#adaed2"
-                                                       BorderThickness="0"
-                                                       Padding="5"
-                                                       FontSize="16"
-                                                       Foreground="White"
-                                                       VerticalContentAlignment="Center"
-                                                       IsReadOnly="True" />
 
-                                    <ToggleButton x:Name="PART_Button"
-                                                  Width="20"
-                                                  Content="▼"
-                                                  HorizontalAlignment="Right"
-                                                  VerticalContentAlignment="Center"
-                                                  Background="Transparent"
-                                                  BorderBrush="Transparent"
-                                                  FontWeight="Bold"
-                                                  Focusable="False"
-                                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                  ClickMode="Press">
-                                    </ToggleButton>
-                                </Grid>
-                            </Border>
 
-                            <Popup x:Name="PART_Popup"
-                                   Placement="Bottom"
-                                   StaysOpen="False"
-                                   AllowsTransparency="True"
-                                   IsOpen="{TemplateBinding IsDropDownOpen}"
-                                   PopupAnimation="Slide">
+    <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
+        <Setter Property="Height" Value="45" />
+        <Setter Property="Width" Value="200" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DatePicker}">
+                    <Grid>
+                        <Border Background="#adaed2" BorderThickness="2" BorderBrush="#9294c3" CornerRadius="5">
+                            <Grid>
+                                <DatePickerTextBox x:Name="PART_TextBox"
+                                                   Background="#adaed2"
+                                                   BorderThickness="0"
+                                                   Padding="5"
+                                                   FontSize="16"
+                                                   Foreground="White"
+                                                   VerticalContentAlignment="Center"
+                                                   IsReadOnly="True" />
 
-                                <Calendar x:Name="PART_Calendar"
-                                          SelectedDate="{Binding SelectedDate, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          DisplayDate="{Binding DisplayDate, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
-                            </Popup>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    
-    
+                                <ToggleButton x:Name="PART_Button"
+                                              Width="20"
+                                              Content="▼"
+                                              HorizontalAlignment="Right"
+                                              VerticalContentAlignment="Center"
+                                              Background="Transparent"
+                                              BorderBrush="Transparent"
+                                              FontWeight="Bold"
+                                              Focusable="False"
+                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              ClickMode="Press">
+                                </ToggleButton>
+                            </Grid>
+                        </Border>
+
+                        <Popup x:Name="PART_Popup"
+                               Placement="Bottom"
+                               StaysOpen="False"
+                               AllowsTransparency="True"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               PopupAnimation="Slide">
+
+                            <Calendar x:Name="PART_Calendar"
+                                      SelectedDate="{Binding SelectedDate, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                      DisplayDate="{Binding DisplayDate, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <Style x:Key="ShowStatus" TargetType="Button">
-        <Setter Property="Background" Value="#7d5683" />
+        <Setter Property="Background" Value="#634490" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontFamily" Value="Arial" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="5" />
         <Setter Property="Padding" Value="10" />
-        <Setter Property="Width" Value="180"></Setter>
-        <Setter Property="Height" Value="45"></Setter>
+        <Setter Property="Width" Value="160"></Setter>
+        <Setter Property="Height" Value="35"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -157,6 +163,196 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    
+
+    <Style x:Key="ComboboxButtonStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="border"
+                        Background="#adaed2"
+                        CornerRadius="0,5,5,0"
+                        BorderThickness="0,2,2,2"
+                        BorderBrush="#9294c3">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#7375b2" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ComboboxTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Padding" Value="5"></Setter>
+        <Setter Property="FontSize" Value="16"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Grid>
+                        <Border
+                            BorderThickness="2,2,0,2"
+                            CornerRadius="5,0,0,5"
+                            Background="#adaed2"
+                            x:Name="border"
+                            BorderBrush="#9294c3">
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger
+                            Binding="{Binding IsDropDownOpen, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
+                            Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#7375b2" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="ComboboxStyle" TargetType="{x:Type ComboBox}">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="White" /> <!-- Застосовується до ComboBox загалом -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition MaxWidth="18" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Name="PART_EditableTextBox"
+                                 Style="{StaticResource ComboboxTextBoxStyle}"
+                                 Padding="5,5,0,0"
+                                 Foreground="White"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Height="{TemplateBinding Height}" />
+
+                        <ToggleButton Grid.Column="1" Margin="0"
+                                      Height="40"
+                                      Style="{StaticResource ComboboxButtonStyle}"
+                                      Focusable="False"
+                                      Foreground="White"
+
+                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                      ClickMode="Press">
+                            <Path Grid.Column="1"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="M 0 0 L 4 4 L 8 0 Z"
+                                  Fill="#c3c3c4" />
+                        </ToggleButton>
+
+                        <ContentPresenter Grid.Column="0" Name="ContentSite"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Left"
+                                          
+                                          Margin="5,0,0,0"
+                                          />
+
+                        <Popup Grid.Column="0" Name="Popup"
+                               Placement="Bottom"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               AllowsTransparency="True"
+                               Focusable="False"
+                               
+                               PopupAnimation="Slide">
+                            <Grid Name="DropDown" SnapsToDevicePixels="True"
+                                  MinWidth="{TemplateBinding ActualWidth}"
+                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border x:Name="DropDownBorder"
+                                        BorderThickness="2"
+                                        CornerRadius="5"
+                                        BorderBrush="#9294c3"
+                                        Background="#9294c3" />
+
+                                <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True"
+                                                KeyboardNavigation.DirectionalNavigation="Contained">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="ComboBoxItem">
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#6f6f9f" />
+                                                        <Setter Property="Foreground" Value="White" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Background" Value="#5f5f8f" />
+                                                        <Setter Property="Foreground" Value="White" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Resources>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- Стиль для заголовків колонок -->
+    <Style x:Key="DataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+        <Setter Property="Background" Value="#9997de" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="BorderBrush" Value="#282949" />
+        <Setter Property="BorderThickness" Value="1,2,1,3" />
+        <Setter Property="FontStyle" Value="Italic" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <!-- Стиль для клітинок -->
+    <Style x:Key="DataGridCellStyle" TargetType="{x:Type DataGridCell}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="0" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Background" Value="#C7D3FC" />
+               
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Grid Name="Panel">
+                        <ContentPresenter x:Name="ContentSite"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"
+                                          ContentSource="Header"
+                                          Margin="10,2" />
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Panel" Property="Background" Value="#9997de" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter TargetName="Panel" Property="Background" Value="#adaed2" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

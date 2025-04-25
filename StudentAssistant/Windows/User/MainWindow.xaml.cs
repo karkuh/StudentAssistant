@@ -28,9 +28,14 @@ public partial class MainWindow
         InitializeComponent();
         _idStudent = idStudent;
         _status = new Dictionary<string, int>();
+      
         Init_task();
+        
     }
 
+
+
+    
     private void Init_task()
     {
         var dataTable = new DataTable();
@@ -51,11 +56,14 @@ public partial class MainWindow
             {
                 idSubjects.Add(readerColumnHeader.GetInt32(0));
                 dataTable.Columns.Add(
-                    "✔ " + InsertNewLineEveryNCharacters(readerColumnHeader.GetString(1), 25) + "\n○ " +
-                    readerColumnHeader.GetString(2).Trim().Replace('.', '。'),
+                    InsertNewLineEveryNCharacters("📝 " + readerColumnHeader.GetString(1), 35).Replace('.', '﹒') + "\n   🎓 " +
+                    readerColumnHeader.GetString(2).Trim().Replace('.', '﹒'),
                     typeof(string));
             }
         }
+        
+        
+
 
         readerColumnHeader.Close();
 
@@ -161,6 +169,7 @@ public partial class MainWindow
         }
     }
 
+
     private void Add_subject(object sender, RoutedEventArgs e)
     {
         var addSubjectWindow = new AddSubjectWindow(_idStudent);
@@ -172,7 +181,7 @@ public partial class MainWindow
     {
         if (DataGrid.Columns.Count == 1)
         {
-            MessageBox.Show("У вас немає предметів для видалення", "", MessageBoxButton.OK, 
+            MessageBox.Show("У вас немає предметів для видалення", "", MessageBoxButton.OK,
                 MessageBoxImage.Warning);
             return;
         }
@@ -181,7 +190,7 @@ public partial class MainWindow
         deleteSubjectWindow.Show();
         Hide();
     }
-    
+
     private void AddTask_OnClick(object sender, RoutedEventArgs e)
     {
         if (DataGrid.Columns.Count == 1)
@@ -200,7 +209,7 @@ public partial class MainWindow
     {
         if (DataGrid.Items.Count == 0)
         {
-            MessageBox.Show("У вас немає завдань для видалення", "", MessageBoxButton.OK, 
+            MessageBox.Show("У вас немає завдань для видалення", "", MessageBoxButton.OK,
                 MessageBoxImage.Warning);
             return;
         }
@@ -209,12 +218,20 @@ public partial class MainWindow
         deleteTaskWindow.Show();
         Hide();
     }
-    
+
+
+    private void Rozklad_OnClick(object sender, RoutedEventArgs e)
+    {
+        var rozkladWindow = new RozkladWindow(_idStudent);
+        rozkladWindow.Show();
+        Hide();
+    }
+
     private void ChangeTask_OnClick(object sender, RoutedEventArgs e)
     {
         if (DataGrid.Items.Count == 0)
         {
-            MessageBox.Show("У вас немає завдань для зміни", "", MessageBoxButton.OK, 
+            MessageBox.Show("У вас немає завдань для зміни", "", MessageBoxButton.OK,
                 MessageBoxImage.Warning);
             return;
         }
@@ -223,7 +240,7 @@ public partial class MainWindow
         changeTaskWindow.Show();
         Hide();
     }
-    
+
     private void Click_exit(object sender, RoutedEventArgs e)
     {
         var savedStudentQuery = $"truncate table saved_student;";
@@ -233,7 +250,7 @@ public partial class MainWindow
         startWindow.Show();
         Hide();
     }
-    
+
     private void CheckBox_OnClick(object sender, RoutedEventArgs e)
     {
         for (var i = 1; i < DataGrid.Columns.Count; i++)
@@ -247,6 +264,7 @@ public partial class MainWindow
                     var cell = (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(i);
                     if (ShowStatusCheckBox.IsChecked == true)
                     {
+                        DataGrid.SelectedIndex = -1;
                         if (_status.ContainsKey($"{j} {i}"))
                         {
                             var status = _status[$"{j} {i}"];
@@ -256,13 +274,14 @@ public partial class MainWindow
                                 2 => new SolidColorBrush(Color.FromRgb(255, 157, 61)),
                                 3 => new SolidColorBrush(Color.FromRgb(226, 193, 95)),
                                 4 => new SolidColorBrush(Color.FromRgb(127, 209, 111)),
-                                5 =>new SolidColorBrush(Color.FromRgb(58, 130, 44)),
+                                5 => new SolidColorBrush(Color.FromRgb(58, 130, 44)),
                                 _ => new SolidColorBrush(Color.FromRgb(173, 174, 210))
                             };
                         }
                     }
                     else
                     {
+                        DataGrid.SelectedIndex = -1;
                         cell.Background = new SolidColorBrush(Color.FromRgb(173, 174, 210));
                     }
 
@@ -272,7 +291,7 @@ public partial class MainWindow
             }
         }
     }
-    
+
     private TChildItem FindVisualChild<TChildItem>(DependencyObject obj)
         where TChildItem : DependencyObject
     {
@@ -284,28 +303,35 @@ public partial class MainWindow
             var childOfChild = FindVisualChild<TChildItem>(child);
             return childOfChild;
         }
-    
+
         return null!;
     }
 
     private string InsertNewLineEveryNCharacters(string input, int charactersPerLine)
     {
         var result = new StringBuilder();
-
-        for (var i = 0; i < input.Length; i += charactersPerLine)
+        var words = input.Split(' ');
+        var currentLine = new StringBuilder("ㅤ");
+        foreach (var word in words)
         {
-            var length = Math.Min(charactersPerLine, input.Length - i);
-            result.Append(input.AsSpan(i, length));
-
-            if (i + charactersPerLine < input.Length)
+            if (currentLine.Length + word.Length + 1 > charactersPerLine)
             {
-                result.AppendLine();
+                result.AppendLine(currentLine.ToString().TrimEnd());
+                currentLine.Clear();
+                currentLine.Append("ㅤ");
             }
+
+            currentLine.Append(word + " ");
+        }
+
+        if (currentLine.Length > 0)
+        {
+            result.Append(currentLine.ToString().TrimEnd());
         }
 
         return result.ToString();
     }
-    
+
     private void MainWindow_OnClosing(object? sender, CancelEventArgs e)
     {
         Close();

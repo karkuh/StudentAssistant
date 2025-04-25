@@ -120,6 +120,7 @@ public partial class StartWindow
     
     private void StartForm_OnClosing(object? sender, CancelEventArgs e)
     {
+        Hide();
         Close();
     }
 }

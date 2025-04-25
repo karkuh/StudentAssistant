@@ -18,6 +18,11 @@ public partial class ChangeTaskWindow
     public ChangeTaskWindow(int idStudent)
     {
         InitializeComponent();
+        DateTime today = DateTime.Today;
+
+        // Встановлюємо DisplayDateStart та DisplayDateEnd
+        DeadlineDatePicker.DisplayDateStart = today;
+        DeadlineDatePicker.DisplayDateEnd = today.AddYears(1);
         _idStudent = idStudent;
         InitListBox();
         SubjectsListBox.SelectedIndex = 0;
@@ -71,6 +76,8 @@ public partial class ChangeTaskWindow
         if (TasksListBox.Items.Count == 0)
         {
             visibility = Visibility.Hidden;
+            EarnedScoreTextBox.Visibility = Visibility.Hidden;
+            EarnedScoreLabel.Visibility = Visibility.Hidden;
         }
         else
         {
@@ -124,7 +131,14 @@ public partial class ChangeTaskWindow
             $"id_task = {TasksListBox.SelectedItem.ToString()!.Split(". ")[0]};";
         var commandEarnedScore = new MySqlCommand(earnedScoreQuery, Db.Connection.Connect);
         var earnedScore = Convert.ToString(commandEarnedScore.ExecuteScalar())!;
-        EarnedScoreTextBox.Text = earnedScore.Replace(',', '.');
+        if (earnedScore == ""  && StatusListBox.SelectedIndex == 4)
+        {
+            EarnedScoreTextBox.Text = "0.00";
+        }
+        else
+        {
+            EarnedScoreTextBox.Text = earnedScore.Replace(',', '.');
+        }
     }
 
     private void UIElement_OnPreviewTextInput(object sender, TextCompositionEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using MySql.Data.MySqlClient;
 using StudentAssistant.DB;
@@ -13,6 +14,12 @@ public partial class AddTaskWindow
     public AddTaskWindow(int idStudent)
     {
         InitializeComponent();
+        // Отримуємо сьогоднішню дату
+        DateTime today = DateTime.Today;
+
+        // Встановлюємо DisplayDateStart та DisplayDateEnd
+        DeadLineDatePicker.DisplayDateStart = today;
+        DeadLineDatePicker.DisplayDateEnd = today.AddYears(1);
         _idStudent = idStudent;
         InitListBox();
         SubjectsListBox.SelectedIndex = 0;

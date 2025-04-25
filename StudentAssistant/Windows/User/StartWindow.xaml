@@ -7,7 +7,7 @@
         Title="StudentAssistant" Height="500" Width="600" 
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Background="#e2e9ff"
+        Background="{StaticResource BackgroundColor}"
         Closing="StartForm_OnClosing"
         Icon="pack://application:,,,/Resources/icon.ico">
     <Window.Resources>
@@ -67,39 +67,48 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Image VerticalAlignment="Bottom"
-               Source="F:\GIT\StudentAssistant\StudentAssistant\Resources\logo.jpeg" />
+        <Image 
+               Source="F:\GIT\StudentAssistant\StudentAssistant\Resources\logo1.png" Height="200" />
         <TextBox Name="LoginTextBox" Grid.Row="1" Style="{StaticResource TextBoxNameStyle}"
                  VerticalAlignment="Bottom">
         </TextBox>
 
         <TextBox Name="PasswordTextBox" Grid.Row="2" Style="{StaticResource TextBoxPasswordStyle}"></TextBox>
 
-        <Button  Grid.Row="3" Style="{StaticResource ShowStatus}" Name="ShowStatusBackground"
-                 >
-
+        <Button  Grid.Row="3" Style="{StaticResource ShowStatus}" Name="ShowStatusBackground">
+        
         </Button>
         <TextBlock Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"
                    FontSize="16" FontFamily="Arial" >
             <StackPanel Orientation="Horizontal">
-                <CheckBox Name="SavedStudentCheckBox" Padding="10 0 0 0 " Foreground="White">Запам'ятати?</CheckBox>
+                <CheckBox Name="SavedStudentCheckBox" Padding="10 0 0 0 " Foreground="White" FontSize="14">Запам'ятати?</CheckBox>
             </StackPanel>
+         
         </TextBlock>
+        
 
         
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" >
-            <Button  Content="Зареєструватися" Margin="0 0 20 0" Style="{StaticResource ButtonStyle}"
-                     Click="SignUp_Click" />
+        <StackPanel Grid.Row="4" Orientation="Vertical" HorizontalAlignment="Center" Margin="0 30 0 0" >
+           
             <Button  Content="Увійти"
-                    Click="LogIn_Click" Margin="20 0 0 0" Style="{StaticResource ButtonStyle}" />
-
+                    Click="LogIn_Click" Margin="0 0 0 0" Style="{StaticResource ButtonStyle}" />
+            <TextBlock FontStyle="Italic">
+                Немає акаунту? Бажаєш ‎
+                
+                <TextBlock Text="зареєструватися"
+                           Foreground="#5D3A9B"
+                           FontWeight="Bold"
+                           Cursor="Hand"
+                           MouseLeftButtonDown="SignUp_Click" />
+                ?
+            </TextBlock>
         </StackPanel>
 
 

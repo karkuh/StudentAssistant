@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net.Http;
 using System.Windows;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using StudentAssistant.DB;
 
 namespace StudentAssistant.Windows.User;
 
 public partial class RegistrationWindow
 {
+    private List<Group> groups;
+
     public RegistrationWindow()
     {
         InitializeComponent();
@@ -21,13 +26,13 @@ public partial class RegistrationWindow
     }
     private void Registration_Click(object sender, RoutedEventArgs e)
     {
-        if (!Validation(LoginTextBox.Text, PasswordTextBox.Text, GroupTextBox.Text)) return;
+        if (!Validation(LoginTextBox.Text, PasswordTextBox.Text, GroupComboBox.Text)) return;
         if (Check_Login(LoginTextBox.Text))
         {
             // Додавання нового облікового запису студента
             var insertQuery =
                 $"INSERT INTO students (login, password, group_name) VALUES " +
-                $"('{LoginTextBox.Text.Trim()}', '{PasswordTextBox.Text}', '{GroupTextBox.Text}');";
+                $"('{LoginTextBox.Text.Trim()}', '{PasswordTextBox.Text}', '{GroupComboBox.Text}');";
 
             var commandInsert = new MySqlCommand(insertQuery, Db.Connection.Connect);
             commandInsert.ExecuteScalar();
@@ -78,8 +83,39 @@ public partial class RegistrationWindow
         return count == 0;
     }
     
+    private async void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string url = "https://api.campus.kpi.ua/schedule/groups";
+                HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                var groupList = JsonConvert.DeserializeObject<List<Group>>(responseBody);
+                groups = groupList;
+                GroupComboBox.ItemsSource = groups;
+                GroupComboBox.DisplayMemberPath = "Name";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+    }
+    
     private void Registration_OnClosing(object? sender, CancelEventArgs e)
     {
         Close();
+    }
+    
+    public class Group
+    {
+        [JsonProperty("id")] public string Id { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
+        [JsonProperty("faculty")] public string Faculty { get; set; }
     }
 }
