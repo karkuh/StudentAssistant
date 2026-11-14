@@ -2,14 +2,14 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net6.0-windows</TargetFramework>
+        <TargetFramework>net8.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="MySql.Data" Version="8.2.0" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,6 +25,10 @@
 
     <ItemGroup>
       <None Remove="Resources\1week.jpg" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Learn\11 семестр\Магістерська робота\Master work\MasterWork.Shared\MasterWork.Shared.csproj" />
     </ItemGroup>
 
 </Project>

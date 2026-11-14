@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Windows;
-using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
-using StudentAssistant.DB;
+using StudentAssistant.Services;
+using MasterWork.Shared.Models;
 
-namespace StudentAssistant.Windows.User;
+namespace StudentAssistant.Views.User;
 
-public partial class RegistrationWindow
+public partial class RegistrationWindow : Window
 {
     private List<Group> groups;
 
@@ -24,26 +25,38 @@ public partial class RegistrationWindow
         startWindow.Show();
         Hide();
     }
-    private void Registration_Click(object sender, RoutedEventArgs e)
+
+    private async void Registration_Click(object sender, RoutedEventArgs e)
     {
         if (!Validation(LoginTextBox.Text, PasswordTextBox.Text, GroupComboBox.Text)) return;
-        if (Check_Login(LoginTextBox.Text))
-        {
-            // Додавання нового облікового запису студента
-            var insertQuery =
-                $"INSERT INTO students (login, password, group_name) VALUES " +
-                $"('{LoginTextBox.Text.Trim()}', '{PasswordTextBox.Text}', '{GroupComboBox.Text}');";
 
-            var commandInsert = new MySqlCommand(insertQuery, Db.Connection.Connect);
-            commandInsert.ExecuteScalar();
-            MessageBox.Show("Користувача додано", "", MessageBoxButton.OK, MessageBoxImage.Information);
-            var startWindow = new StartWindow();
-            startWindow.Show();
-            Hide();
-        }
-        else
+        var registerDto = new RegisterDto
         {
-            MessageBox.Show("Такий логін вже існує", "", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Login = LoginTextBox.Text.Trim(),
+            Password = PasswordTextBox.Text, // Відправляємо як є, API його надійно захешує
+            GroupName = GroupComboBox.Text
+        };
+
+        try
+        {
+            var response = await ApiClient.Client.PostAsJsonAsync("Users/Register", registerDto);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("Користувача успішно додано!", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                var startWindow = new StartWindow();
+                startWindow.Show();
+                Hide();
+            }
+            else
+            {
+                string errorDetails = await response.Content.ReadAsStringAsync();
+                MessageBox.Show($"Статус коду: {response.StatusCode}\nДеталі:\n{errorDetails}", "Відповідь сервера", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Помилка реєстрації: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -58,29 +71,17 @@ public partial class RegistrationWindow
 
         if (password.Trim().Length < 8 || login.Trim().Length < 8)
         {
-            MessageBox.Show("Пароль та логін повинні містити мінімум 8 символів", "Увага!", MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            MessageBox.Show("Пароль та логін повинні містити мінімум 8 символів", "Увага!", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
         }
 
         if (password.Trim().Contains(' ') || login.Trim().Contains(' ') || group.Trim().Contains(' '))
         {
-            MessageBox.Show("Введені дані не повинні містити пробіл", "Увага!", MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            MessageBox.Show("Введені дані не повинні містити пробіл", "Увага!", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
         }
 
         return true;
-    }
-
-    private static bool Check_Login(string login)
-    {
-        // Перевірка унікальності логіну
-        var countQuery = $"select count(*) from students where login = '{login.Trim()}';";
-
-        var commandCount = new MySqlCommand(countQuery, Db.Connection.Connect);
-        var count = Convert.ToInt32(commandCount.ExecuteScalar());
-        return count == 0;
     }
     
     private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -89,20 +90,21 @@ public partial class RegistrationWindow
         {
             using (HttpClient client = new HttpClient())
             {
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+    
                 string url = "https://api.campus.kpi.ua/schedule/groups";
                 HttpResponseMessage response = await client.GetAsync(url);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
-
-                var groupList = JsonConvert.DeserializeObject<List<Group>>(responseBody);
-                groups = groupList;
+    
+                groups = JsonConvert.DeserializeObject<List<Group>>(responseBody);
                 GroupComboBox.ItemsSource = groups;
                 GroupComboBox.DisplayMemberPath = "Name";
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
             MessageBox.Show($"An error occurred: {ex.Message}");
         }
     }

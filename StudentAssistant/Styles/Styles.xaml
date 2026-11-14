@@ -355,4 +355,29 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="TextBoxNameStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                            <TextBlock x:Name="Placeholder" Text="Введіть логін" Foreground="Gray"
+                                       VerticalAlignment="Center" Margin="10,0,0,0" Visibility="Collapsed" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Placeholder" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

@@ -1,7 +1,7 @@
-﻿<Window x:Class="StudentAssistant.Windows.Subject.RozkladWindow"
+﻿<Window x:Class="StudentAssistant.Views.Subject.RozkladWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:StudentAssistant.Windows.Subject"
+        xmlns:local="clr-namespace:StudentAssistant.Views.Subject"
         Title="StudentAssistant"
         Height="450" Width="800" MinHeight="450" MinWidth="800"
         WindowStartupLocation="CenterScreen"
@@ -18,7 +18,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Верхній заголовок та кнопка Назад -->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -37,7 +36,6 @@
                     Margin="0,0,0,10"/>
         </Grid>
 
-        <!-- Поле для введення групи та кнопка OK -->
         <StackPanel Grid.Row="2" Orientation="Horizontal"
                     HorizontalAlignment="Center" Margin="0,20">
             <ComboBox x:Name="comboBox"
@@ -53,10 +51,8 @@
                     IsDefault="True"/>
         </StackPanel>
 
-        <!-- Роздільник -->
         <Separator Grid.Row="1" Margin="0,10"/>
 
-        <!-- Таблиця розкладу -->
         <TabControl Grid.Row="3"
                     FontWeight="SemiBold"
                     FontSize="18"

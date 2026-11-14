@@ -1,4 +1,4 @@
-﻿<Window x:Class="StudentAssistant.Windows.User.MainWindow"
+﻿<Window x:Class="StudentAssistant.Views.User.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -23,7 +23,6 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Бічна панель кнопок -->
         <StackPanel Grid.Row="0" Grid.RowSpan="2" Margin="0 10 0 0">
             <Button Content="Додати предмет" Margin="0 0 0 20" Style="{StaticResource ButtonStyle}" Click="Add_subject" />
             <Button Content="Видалити предмет" Margin="0 0 0 20" Style="{StaticResource ButtonStyle}" Click="Delete_subject" />
@@ -34,7 +33,6 @@
             <Button Content="Вийти" Style="{StaticResource ButtonStyle}" Click="Click_exit" />
         </StackPanel>
 
-        <!-- Головна таблиця -->
         <DataGrid Grid.Row="0" Grid.Column="1" Margin="20 10" Name="DataGrid"
                   FontSize="20" IsReadOnly="True" Background="#adaed2"
                   HeadersVisibility="Column" GridLinesVisibility="All"
@@ -61,14 +59,12 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <!-- Нижня панель -->
         <Grid Grid.Row="1" Grid.Column="1" Margin="20 0 20 10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- Кнопка статусу та чекбокс -->
             <Button Style="{StaticResource ShowStatus}" Name="ShowStatusBackground" Margin="0 20 0 0" />
 
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0">
@@ -76,7 +72,6 @@
                           Foreground="White" Padding="10 0 0 0" Content="Переглянути статус" />
             </StackPanel>
 
-            <!-- Сітка прогресу -->
             <Grid Grid.Column="1" Name="mainGrid" Width="100" HorizontalAlignment="Right" Margin="0 0 0 0">
                 <Grid.RowDefinitions>
                     <RowDefinition />

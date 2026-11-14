@@ -1,4 +1,4 @@
-﻿<Window x:Class="StudentAssistant.Windows.User.RegistrationWindow"
+﻿<Window x:Class="StudentAssistant.Views.User.RegistrationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="StudentAssistant"
@@ -23,7 +23,6 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <!-- Назва вікна -->
         <TextBlock Text="Реєстрація користувача"
                    FontSize="24" FontWeight="Bold"
                    Foreground="#4B4B77"
@@ -31,16 +30,13 @@
                    Grid.Row="0" Grid.Column="0"
                    Margin="10" />
 
-        <!-- Кнопка Назад -->
         <Button Content="Назад" Style="{StaticResource ButtonStyle}"
                 Click="Back_Click"
                 Grid.Row="0" Grid.Column="1"
                 Margin="0,10,10,10" />
 
-        <!-- Роздільник -->
         <Separator Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Margin="0,10" />
 
-        <!-- Основна форма -->
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"
                     VerticalAlignment="Center" HorizontalAlignment="Center"
                     Width="400">
@@ -72,7 +68,6 @@
 
         </StackPanel>
 
-        <!-- Кнопка Зареєструватися -->
         <Button Content="Зареєструватися" Style="{StaticResource ButtonStyle}"
                 Click="Registration_Click"
                 Grid.Row="3" Grid.ColumnSpan="2"
